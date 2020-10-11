@@ -8,14 +8,18 @@ package servlets;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
+
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import models.AccountService;
 
 /**
  *
  * @author 751682
  */
+
 public class LoginServlet extends HttpServlet {
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -31,6 +35,21 @@ public class LoginServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        HttpSession session = request.getSession();
+        
+        if (request.getParameter("logout")!=null){
+         session.invalidate();
+         //session.removeAttribute("username");
+         String message ="You have succesfully logged out";
+         request.setAttribute("message", message);
+        }
+        
+        if(session.getAttribute("username")!=null){
+            response.sendRedirect("home");
+        }
+        
+        getServletContext().getRequestDispatcher("/WEB-INF/login.jsp")
+                .forward(request, response);
     }
 
     /**
@@ -44,6 +63,22 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        AccountService as = new AccountService();
+        
+        HttpSession session = request.getSession();
+        
+        if(as.login(username, password)!=null){
+            session.setAttribute("username", username);
+            session.setAttribute("password", null);
+            response.sendRedirect("home");
+        }
+        
+        getServletContext().getRequestDispatcher("/WEB-INF/login.jsp")
+                .forward(request, response);
+        
         
     }
 

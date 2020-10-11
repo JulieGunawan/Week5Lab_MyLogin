@@ -10,33 +10,21 @@ package models;
  * @author 751682
  */
 public class AccountService {
-    private String username;
-    private String password;
+    private String[] users ={"abe","barb"};
+    private String[] passwords ={"password","password"};
     
     public AccountService(){
-        this.username="";
-        this.password="";
+        
     }
     
-    public AccountService(String username, String password){
-        this.username = username;
-        this.password = password;
-    }
-    
-    public String getUsername(){
-        return this.username;
-    }
-    
-    public String getPassword(){
-        return this.password;
-    }
-    
-    public void setUsername(String username){
-        this.username = username;
-    }
-    
-    public void setPassword(String password){
-        this.password = password;
+    public User login(String username, String password) {
+        User tempUser=null;
+        for(int i=0; i<users.length; i++){
+            if(username.equals(users[i]) && password.equals(passwords[i]))
+                tempUser=new User(users[i],null);
+                return tempUser;
+        }
+        return tempUser;
     }
     
     
