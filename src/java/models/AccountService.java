@@ -20,9 +20,10 @@ public class AccountService {
     public User login(String username, String password) {
         User tempUser=null;
         for(int i=0; i<users.length; i++){
-            if(username.equals(users[i]) && password.equals(passwords[i]))
+            if(username.equals(users[i]) && password.equals(passwords[i])){
                 tempUser=new User(users[i],null);
-                return tempUser;
+                return tempUser;}
+            
         }
         return tempUser;
     }

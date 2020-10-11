@@ -39,16 +39,16 @@ public class LoginServlet extends HttpServlet {
         
         if (request.getParameter("logout")!=null){
          session.invalidate();
-         //session.removeAttribute("username");
          String message ="You have succesfully logged out";
          request.setAttribute("message", message);
+         session = request.getSession();
         }
         
         if(session.getAttribute("username")!=null){
             response.sendRedirect("home");
         }
-        
-        getServletContext().getRequestDispatcher("/WEB-INF/login.jsp")
+        else
+            getServletContext().getRequestDispatcher("/WEB-INF/login.jsp")
                 .forward(request, response);
     }
 
@@ -75,11 +75,13 @@ public class LoginServlet extends HttpServlet {
             session.setAttribute("password", null);
             response.sendRedirect("home");
         }
-        
-        getServletContext().getRequestDispatcher("/WEB-INF/login.jsp")
+        else {
+            String message="Username and/or password are invalid";
+            session.setAttribute("message", message);          
+            getServletContext().getRequestDispatcher("/WEB-INF/login.jsp")
                 .forward(request, response);
         
-        
+        }
     }
 
 

@@ -20,6 +20,6 @@
         
         </form>
             <br>          
-        <p>$[message}</p>
+        <p>${message}</p>
     </body>
 </html>
